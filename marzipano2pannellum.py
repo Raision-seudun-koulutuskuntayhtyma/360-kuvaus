@@ -37,7 +37,10 @@ def convert(args):
             "pitch": rad2deg(scene["initialViewParameters"]["pitch"]),
             "hotSpots": []
         }
-        out["scenes"][mapped_id].update(mapping.get(scene["id"], {}))
+
+        for k, v in mapping.get(scene["id"], {}).items():
+            if not k.startswith("_"):
+                out["scenes"][mapped_id][k] = v
         
         for hotspot in scene.get("linkHotspots", []):
             mapped_target_id = mapping.get(hotspot["target"], {}).get("_id", hotspot["target"])
